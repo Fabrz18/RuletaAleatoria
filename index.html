@@ -23,6 +23,8 @@
     <div class="roulette">
       <div id="roulette-display">?</div>
       <button id="spin-btn">🎡 Girar Ruleta</button>
+      <button id="auto-spin-btn">🤖 Giro Auto.</button>
+
     </div>
   </div>
 
@@ -37,18 +39,29 @@
         <!-- Botón de configuración -->
     <button id="config-btn" class="config-btn">⚙️</button>
 
-    <!-- Popup Configuración -->
+   <!-- Popup Configuración -->
     <div id="config-popup" class="popup">
-    <div class="popup-content">
+      <div class="popup-content">
         <h2>Configuración</h2>
         <label for="num-cards">Cantidad de cartas:</label>
         <input type="number" id="num-cards" min="1" max="20" value="20">
+
+        <br><br>
+
+        <label for="speed-select">Velocidad del giro:</label>
+        <select id="speed-select">
+          <option value="800">Lento (0.8s)</option>
+          <option value="650" selected>Normal (0.65s)</option>
+          <option value="400">Rápido (0.4s)</option>
+        </select>
+
         <div style="margin-top: 15px;">
-        <button id="apply-config">Aplicar</button>
-        <button id="close-config">Cerrar</button>
+          <button id="apply-config">Aplicar</button>
+          <button id="close-config">Cerrar</button>
         </div>
+      </div>
     </div>
-    </div>
+
 
   <script src="script.js"></script>
 </body>

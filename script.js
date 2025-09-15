@@ -15,8 +15,29 @@ const numCardsInput = document.getElementById("num-cards");
 const applyConfig = document.getElementById("apply-config");
 const closeConfig = document.getElementById("close-config");
 
+const autoSpinBtn = document.getElementById("auto-spin-btn");
+const speedSelect = document.getElementById("speed-select");
+
+
 let counts = {}; // Contador de cada número
 let totalCards = 20; // valor inicial
+let autoSpinInterval = null;
+let autoSpinSpeed = 650; // valor por defecto (Normal)
+
+// Botón Giro Automático
+autoSpinBtn.addEventListener("click", () => {
+  if (!autoSpinInterval) {
+    autoSpinInterval = setInterval(spinRoulette, autoSpinSpeed);
+    autoSpinBtn.textContent = "⛔ Detener Auto.";
+    spinBtn.disabled = true;
+  } else {
+    clearInterval(autoSpinInterval);
+    autoSpinInterval = null;
+    autoSpinBtn.textContent = "🔄 Giro Auto.";
+    spinBtn.disabled = false;
+  }
+});
+
 
 // Mostrar popup config
 configBtn.addEventListener("click", () => {
@@ -33,7 +54,8 @@ applyConfig.addEventListener("click", () => {
   let value = parseInt(numCardsInput.value);
   if (value >= 1 && value <= 20) {
     totalCards = value;
-    createCards(); // regenerar cartas con el nuevo número
+    autoSpinSpeed = parseInt(speedSelect.value); // 👈 guardar velocidad
+    createCards();
     historyList.innerHTML = "";
     rouletteDisplay.textContent = "?";
     configPopup.style.display = "none";
@@ -41,6 +63,7 @@ applyConfig.addEventListener("click", () => {
     alert("Por favor ingresa un número entre 1 y 20");
   }
 });
+
 
 // Modificar createCards para usar totalCards
 function createCards() {
@@ -120,13 +143,21 @@ function spinRoulette() {
   historyList.prepend(li);
 
   if (counts[result] === 5) {
-    const card = document.querySelector(`.card[data-number='${result}']`);
-    const playerName = card.querySelector(".card-player").value || "Sin nombre";
+  const card = document.querySelector(`.card[data-number='${result}']`);
+  const playerName = card.querySelector(".card-player").value || "Sin nombre";
 
-    popupNumber.textContent = `Número: ${result}`;
-    popupPlayer.textContent = `Jugador: ${playerName}`;
-    popup.style.display = "flex";
+  popupNumber.textContent = `Número: ${result}`;
+  popupPlayer.textContent = `Jugador: ${playerName}`;
+  popup.style.display = "flex";
+
+  // 👇 DETENER AUTO-SPIN SI ESTÁ ACTIVO
+  if (autoSpinInterval) {
+    clearInterval(autoSpinInterval);
+    autoSpinInterval = null;
+    autoSpinBtn.textContent = "🔄 Giro Auto.";
+    spinBtn.disabled = false; // reactivar botón manual
   }
+}
 }
 
 // Reiniciar ronda
