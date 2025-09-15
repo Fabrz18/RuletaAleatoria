@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Juego de Cartas y Ruleta</title>
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+  <h1>Juego de Cartas y Ruleta</h1>
+
+  <div class="game-container">
+    <!-- Historial -->
+    <div class="history">
+      <h2>Historial</h2>
+      <ul id="history-list"></ul>
+    </div>
+
+    <!-- Cartas -->
+    <div id="cards-container" class="cards"></div>
+
+    <!-- Ruleta -->
+    <div class="roulette">
+      <div id="roulette-display">?</div>
+      <button id="spin-btn">🎡 Girar Ruleta</button>
+    </div>
+  </div>
+
+    <div id="popup" class="popup">
+    <div class="popup-content">
+        <span id="popup-number"></span>
+        <span id="popup-player"></span> <!-- 👈 Aquí aparecerá el nombre -->
+        <button id="close-popup">Cerrar</button>
+        <button id="reiniciar-popup">Reiniciar Ronda</button>
+    </div>
+    </div>
+        <!-- Botón de configuración -->
+    <button id="config-btn" class="config-btn">⚙️</button>
+
+    <!-- Popup Configuración -->
+    <div id="config-popup" class="popup">
+    <div class="popup-content">
+        <h2>Configuración</h2>
+        <label for="num-cards">Cantidad de cartas:</label>
+        <input type="number" id="num-cards" min="1" max="20" value="20">
+        <div style="margin-top: 15px;">
+        <button id="apply-config">Aplicar</button>
+        <button id="close-config">Cerrar</button>
+        </div>
+    </div>
+    </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
