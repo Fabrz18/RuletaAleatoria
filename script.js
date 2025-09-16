@@ -38,7 +38,7 @@ numPositionsInput.addEventListener("input", () => {
 });
 // Cargar Yape guardado al iniciar
 window.addEventListener("load", () => {
-    const savedYape = localStorage.getItem("yapeNumber");
+    const savedYape = "💜" + localStorage.getItem("yapeNumber") + "💜";
     if (savedYape) {
         yapeDisplay.textContent = savedYape;
         yapeInput.value = savedYape;
