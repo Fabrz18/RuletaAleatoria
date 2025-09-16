@@ -224,13 +224,26 @@ function spinRoulette() {
     if (Date.now() - startTime >= duration) {
       clearInterval(interval);
 
-      const result = Math.floor(Math.random() * totalCards) + 1;
+      // 🔹 Filtrar números que todavía no ganaron
+      const availableNumbers = [];
+      for (let n = 1; n <= totalCards; n++) {
+        if (!winners.some(w => w.numero === n) && counts[n] < 5) {
+          availableNumbers.push(n);
+        }
+      }
+
+      if (availableNumbers.length === 0) {
+        rouletteDisplay.textContent = "🎉 Todos ganaron!";
+        return;
+      }
+
+      // 🔹 Elegir un número aleatorio de los disponibles
+      const result = availableNumbers[Math.floor(Math.random() * availableNumbers.length)];
       rouletteDisplay.textContent = result;
 
-      // ⚠️ Si ya hay popup activo, no dar puntos
       if (popup.style.display === "flex") return;
 
-      if (counts[result] < 5) counts[result]++;
+      counts[result]++;
       updateCardCircles(result);
 
       const li = document.createElement("li");
@@ -247,7 +260,7 @@ function spinRoulette() {
 
         addWinner(result, playerName);
 
-        // 🚫 Forzar stop: detener auto-spin
+        // 🚫 Detener auto-spin si había
         if (autoSpinInterval) {
           clearInterval(autoSpinInterval);
           autoSpinInterval = null;
@@ -255,11 +268,12 @@ function spinRoulette() {
           spinBtn.disabled = false;
         }
 
-        return; // 🚨 Cortamos aquí para que no se sigan otorgando puntos
+        return; // 🚨 No seguir sumando puntos
       }
     }
   }, intervalTime);
 }
+
 
 
 
