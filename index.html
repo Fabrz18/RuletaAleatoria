@@ -24,7 +24,11 @@
       <div id="roulette-display">?</div>
       <button id="spin-btn">🎡 Girar Ruleta</button>
       <button id="auto-spin-btn">🤖 Giro Auto.</button>
-
+      <!-- Lista de Ganadores -->
+      <div class="winners">
+        <h2>Ganadores</h2>
+        <ol id="winners-list"></ol>
+      </div>
     </div>
   </div>
 
@@ -54,6 +58,15 @@
           <option value="650" selected>Normal (0.65s)</option>
           <option value="400">Rápido (0.4s)</option>
         </select>
+
+        <br><br>
+
+        <label for="num-positions">Cantidad de puestos:</label>
+        <input type="number" id="num-positions" min="1" max="10" value="3">
+
+        <div id="prizes-config"></div>
+
+
 
         <div style="margin-top: 15px;">
           <button id="apply-config">Aplicar</button>

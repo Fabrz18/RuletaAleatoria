@@ -17,12 +17,63 @@ const closeConfig = document.getElementById("close-config");
 
 const autoSpinBtn = document.getElementById("auto-spin-btn");
 const speedSelect = document.getElementById("speed-select");
-
+const winnersList = document.getElementById("winners-list");
+const numPositionsInput = document.getElementById("num-positions");
+const prizeAmountInput = document.getElementById("prize-amount");
 
 let counts = {}; // Contador de cada número
 let totalCards = 20; // valor inicial
 let autoSpinInterval = null;
 let autoSpinSpeed = 650; // valor por defecto (Normal)
+let winners = [];
+let numPositions = 3;
+let prizeAmount = "100 puntos";
+let prizeConfig = [{puesto:1, premio:"20"}, {puesto:2, premio:"15"}, {puesto:3, premio:"10"}]; // [{puesto:1, premio:"20"}, {puesto:2, premio:"15"}, {puesto:3, premio:"10"}]
+
+numPositionsInput.addEventListener("input", () => {
+  renderPrizeInputs(parseInt(numPositionsInput.value));
+});
+// Al cargar la página, renderizamos los 3 por defecto
+renderPrizeInputs(numPositionsInput.value);
+function renderPrizeInputs(count) {
+  const container = document.getElementById("prizes-config");
+  container.innerHTML = ""; // limpiar
+  for (let i = 1; i <= count; i++) {
+    const label = document.createElement("label");
+    label.textContent = `Premio puesto ${i}:`;
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.id = `prize-${i}`;
+    input.value = (prizeConfig[i-1]?.premio || "");
+
+    container.appendChild(label);
+    container.appendChild(input);
+    container.appendChild(document.createElement("br"));
+  }
+}
+// 🔹 Función para agregar ganador
+function addWinner(number, player) {
+  if (winners.length >= numPositions) return; // Ya se llenaron los puestos
+
+  const puesto = winners.length + 1;
+  const premio = prizeConfig.find(p => p.puesto === puesto)?.premio || "—";
+
+  winners.push({ puesto, numero: number, jugador: player, premio });
+
+  renderWinners();
+}
+
+// 🔹 Mostrar ganadores en pantalla
+function renderWinners() {
+  winnersList.innerHTML = "";
+  winners.forEach(w => {
+    const li = document.createElement("li");
+    li.textContent = `Puesto ${w.puesto}: ${w.jugador} (N°${w.numero}) - Premio: ${w.premio}`;
+    winnersList.appendChild(li);
+  });
+}
+
 
 // Botón Giro Automático
 autoSpinBtn.addEventListener("click", () => {
@@ -49,12 +100,21 @@ closeConfig.addEventListener("click", () => {
   configPopup.style.display = "none";
 });
 
-// Aplicar nueva configuración
 applyConfig.addEventListener("click", () => {
   let value = parseInt(numCardsInput.value);
   if (value >= 1 && value <= 20) {
     totalCards = value;
-    autoSpinSpeed = parseInt(speedSelect.value); // 👈 guardar velocidad
+    autoSpinSpeed = parseInt(speedSelect.value);
+
+    numPositions = parseInt(numPositionsInput.value) || 3;
+
+    // construir prizeConfig desde inputs dinámicos
+    prizeConfig = [];
+    for (let i = 1; i <= numPositions; i++) {
+      const premio = document.getElementById(`prize-${i}`).value || "—";
+      prizeConfig.push({ puesto: i, premio });
+    }
+
     createCards();
     historyList.innerHTML = "";
     rouletteDisplay.textContent = "?";
@@ -128,47 +188,74 @@ function updateCardCircles(number) {
   }
 }
 
+// 🔹 Cuando una carta llega a 5 → ganador
 function spinRoulette() {
-  const result = Math.floor(Math.random() * totalCards) + 1; // 👈 ahora usa totalCards
-  rouletteDisplay.textContent = result;
+  if (popup.style.display === "flex") return; // 🚫 Bloquea giros si popup está abierto
 
-  if (counts[result] < 5) {
-    counts[result]++;
-  }
+  let i = 1;
+  let startTime = Date.now();
+  let duration = 750;
+  let intervalTime = duration / totalCards;
 
-  updateCardCircles(result);
+  const interval = setInterval(() => {
+    rouletteDisplay.textContent = i;
+    i = (i >= totalCards) ? 1 : i + 1;
 
-  const li = document.createElement("li");
-  li.textContent = `Salió: ${result}`;
-  historyList.prepend(li);
+    if (Date.now() - startTime >= duration) {
+      clearInterval(interval);
 
-  if (counts[result] === 5) {
-  const card = document.querySelector(`.card[data-number='${result}']`);
-  const playerName = card.querySelector(".card-player").value || "Sin nombre";
+      const result = Math.floor(Math.random() * totalCards) + 1;
+      rouletteDisplay.textContent = result;
 
-  popupNumber.textContent = `Número: ${result}`;
-  popupPlayer.textContent = `Jugador: ${playerName}`;
-  popup.style.display = "flex";
+      // ⚠️ Si ya hay popup activo, no dar puntos
+      if (popup.style.display === "flex") return;
 
-  // 👇 DETENER AUTO-SPIN SI ESTÁ ACTIVO
-  if (autoSpinInterval) {
-    clearInterval(autoSpinInterval);
-    autoSpinInterval = null;
-    autoSpinBtn.textContent = "🔄 Giro Auto.";
-    spinBtn.disabled = false; // reactivar botón manual
-  }
+      if (counts[result] < 5) counts[result]++;
+      updateCardCircles(result);
+
+      const li = document.createElement("li");
+      li.textContent = `Salió: ${result}`;
+      historyList.prepend(li);
+
+      if (counts[result] === 5) {
+        const card = document.querySelector(`.card[data-number='${result}']`);
+        const playerName = card.querySelector(".card-player").value || "Sin nombre";
+
+        popupNumber.textContent = `Número: ${result}`;
+        popupPlayer.textContent = `Jugador: ${playerName}`;
+        popup.style.display = "flex";
+
+        addWinner(result, playerName);
+
+        // 🚫 Forzar stop: detener auto-spin
+        if (autoSpinInterval) {
+          clearInterval(autoSpinInterval);
+          autoSpinInterval = null;
+          autoSpinBtn.textContent = "🔄 Giro Auto.";
+          spinBtn.disabled = false;
+        }
+
+        return; // 🚨 Cortamos aquí para que no se sigan otorgando puntos
+      }
+    }
+  }, intervalTime);
 }
-}
+
+
+
 
 // Reiniciar ronda
 function reiniciarRonda() {
-  for (let i = 1; i <= 20; i++) {
+  for (let i = 1; i <= totalCards; i++) {
     counts[i] = 0;
   }
   createCards();
   historyList.innerHTML = "";
   rouletteDisplay.textContent = "?";
   popup.style.display = "none";
+  // 🔹 Limpiar ganadores
+  winners = [];
+  renderWinners();
 }
 
 // Eventos

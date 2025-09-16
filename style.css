@@ -344,3 +344,23 @@ h1 {
   border-radius: 6px;
   border: 1px solid #333;
 }
+.winners {
+  margin-top: 20px;
+  text-align: center;
+}
+
+#winners-list {
+  list-style: decimal;
+  padding: 0;
+  margin: 10px auto;
+  max-width: 300px;
+  text-align: left;
+}
+
+#winners-list li {
+  background: #f1f1f1;
+  margin: 5px 0;
+  padding: 8px;
+  border-radius: 6px;
+  font-weight: bold;
+}
