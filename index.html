@@ -79,8 +79,28 @@
         <input type="number" id="num-positions" min="1" max="10" value="3">
 
         <div id="prizes-config"></div>
+        <h3>Imágenes laterales</h3>
+        <button id="hide-images">Ocultar imágenes</button>
+        <button id="show-images">Mostrar imágenes</button>
+        <style>
+          /* Botones de ocultar/mostrar imágenes */
+#hide-images, #show-images {
+  padding: 8px 16px;
+  margin: 5px 0;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  transition: background 0.3s;
+}
 
+#hide-images:hover, #show-images:hover {
+  background-color: #0056b3;
+}
 
+        </style>
 
         <div style="margin-top: 15px;">
           <button id="apply-config">Aplicar</button>
@@ -96,6 +116,25 @@
 const helpBtn = document.getElementById("help-btn");
 helpBtn.addEventListener("click", () => {
   window.open("aiiuda.html", "_blank"); // ⬅️ abre en nueva pestaña
+});
+
+  </script>
+  <script>
+    const BothImageDiv = document.getElementsByClassName("side-image");
+const hideBtn = document.getElementById("hide-images");
+const showBtn = document.getElementById("show-images");
+
+hideBtn.addEventListener("click", () => {
+  for (let i = 0; i < BothImageDiv.length; i++) {
+    BothImageDiv[i].style.display = "none";
+  }
+});
+
+
+showBtn.addEventListener("click", () => {
+  for (let i = 0; i < BothImageDiv.length; i++) {
+    BothImageDiv[i].style.display = "flex";
+  }
 });
 
   </script>
