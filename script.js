@@ -21,6 +21,9 @@ const winnersList = document.getElementById("winners-list");
 const numPositionsInput = document.getElementById("num-positions");
 const prizeAmountInput = document.getElementById("prize-amount");
 
+const yapeInput = document.getElementById("yape-number");
+const yapeDisplay = document.getElementById("yape-display");
+
 let counts = {}; // Contador de cada número
 let totalCards = 20; // valor inicial
 let autoSpinInterval = null;
@@ -33,6 +36,15 @@ let prizeConfig = [{puesto:1, premio:"20"}, {puesto:2, premio:"15"}, {puesto:3, 
 numPositionsInput.addEventListener("input", () => {
   renderPrizeInputs(parseInt(numPositionsInput.value));
 });
+// Cargar Yape guardado al iniciar
+window.addEventListener("load", () => {
+    const savedYape = localStorage.getItem("yapeNumber");
+    if (savedYape) {
+        yapeDisplay.textContent = savedYape;
+        yapeInput.value = savedYape;
+    }
+});
+
 // Al cargar la página, renderizamos los 3 por defecto
 renderPrizeInputs(numPositionsInput.value);
 function renderPrizeInputs(count) {
@@ -102,6 +114,14 @@ closeConfig.addEventListener("click", () => {
 
 applyConfig.addEventListener("click", () => {
   let value = parseInt(numCardsInput.value);
+  const yapeNumber = yapeInput.value.trim();
+    if (yapeNumber) {
+        localStorage.setItem("yapeNumber", yapeNumber);
+        yapeDisplay.textContent = "💜" + yapeNumber + "💜";
+    } else {
+        localStorage.removeItem("yapeNumber");
+        yapeDisplay.textContent = "";
+    }
   if (value >= 1 && value <= 20) {
     totalCards = value;
     autoSpinSpeed = parseInt(speedSelect.value);
