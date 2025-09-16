@@ -8,7 +8,12 @@
 </head>
 <body>
   <h1>Juego de Cartas y Ruleta</h1>
-
+  <h3 id="developer">Desarrollado por: <a href="https://www.tiktok.com/@fabrz16" target="_blank">@fabrz16</a></h3>
+  <div class="main-layout">
+    <div class="side-image">
+    <input type="file" id="img-left-input" accept="image/*" style="display:none;">
+    <img id="img-left" src="MICKEYPELON.jpg" alt="Imagen Izquierda">
+  </div>
   <div class="game-container">
     <!-- Historial -->
     <div class="history">
@@ -30,6 +35,11 @@
         <ol id="winners-list"></ol>
       </div>
     </div>
+  </div>
+    <div class="side-image">
+    <input type="file" id="img-right-input" accept="image/*" style="display:none;">
+    <img id="img-right" src="MICKEYPELON.jpg" alt="Imagen Derecha">
+  </div>
   </div>
 
     <div id="popup" class="popup">
@@ -77,5 +87,6 @@
 
 
   <script src="script.js"></script>
+  <script src="images.js"></script>
 </body>
 </html>
