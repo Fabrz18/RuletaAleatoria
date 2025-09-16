@@ -397,3 +397,24 @@ h1 {
   color: #8f8f8f;
   text-decoration: underline;
 }
+#help-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #fcfcfc;
+  color: #000;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  transition: background 0.3s;
+  z-index: 1000;
+}
+
+#help-btn:hover {
+  background: #fcfcfc;
+  border: #000;
+}

@@ -2,12 +2,14 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Juego de Cartas y Ruleta</title>
+  <title>Inicio | BingoRuleta2025</title>
   <link rel="stylesheet" href="style.css">
 
 </head>
 <body>
+
   <h1>Juego de Cartas y Ruleta</h1>
+  <button id="help-btn">❓</button>
   <h3 id="developer">Desarrollado por: <a href="https://www.tiktok.com/@fabrz16" target="_blank">@fabrz16</a></h3>
   <div class="main-layout">
     <div class="side-image">
@@ -88,5 +90,12 @@
 
   <script src="script.js"></script>
   <script src="images.js"></script>
+  <script>
+const helpBtn = document.getElementById("help-btn");
+helpBtn.addEventListener("click", () => {
+  window.open("aiiuda.html", "_blank"); // ⬅️ abre en nueva pestaña
+});
+
+  </script>
 </body>
 </html>
