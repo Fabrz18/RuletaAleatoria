@@ -420,3 +420,36 @@ h1 {
   background: #fcfcfc;
   border: #000;
 }
+/* Contenedor de botones de moradeo */
+.moradeo-buttons {
+  display: flex;
+  flex-direction: row;   /* en fila */
+  justify-content: center;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+/* Botón Moradeo (M) */
+.btn-morado {
+  background: #800080;   /* morado fuerte */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Botón Falta moradear (N) */
+.btn-morado-claro {
+  background: #d8b4e2;   /* morado clarito */
+  color: black;
+  border: none;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+

@@ -172,6 +172,35 @@ function createCards() {
       }
     });
 
+    // 🔹 Botones de Moradeo
+    const buttonsDiv = document.createElement("div");
+    buttonsDiv.classList.add("moradeo-buttons");
+
+    const btnYaMoradeo = document.createElement("button");
+    btnYaMoradeo.textContent = "M";
+    btnYaMoradeo.style.backgroundColor = "#800080"; // morado fuerte
+    btnYaMoradeo.style.color = "white";
+    btnYaMoradeo.style.marginRight = "5px";
+
+    const btnFaltaMoradear = document.createElement("button");
+    btnFaltaMoradear.textContent = "N";
+    btnFaltaMoradear.style.backgroundColor = "#d8b0ff"; // morado claro
+    btnFaltaMoradear.style.color = "black";
+
+    // Evento: pintar playerInput
+    btnYaMoradeo.addEventListener("click", () => {
+      playerInput.style.backgroundColor = "#800080";
+      playerInput.style.color = "white";
+    });
+
+    btnFaltaMoradear.addEventListener("click", () => {
+      playerInput.style.backgroundColor = "#d8b0ff";
+      playerInput.style.color = "black";
+    });
+
+    buttonsDiv.appendChild(btnYaMoradeo);
+    buttonsDiv.appendChild(btnFaltaMoradear);
+
     const circlesDiv = document.createElement("div");
     circlesDiv.classList.add("circles");
     for (let j = 0; j < 5; j++) {
@@ -182,6 +211,7 @@ function createCards() {
 
     card.appendChild(numberDiv);
     card.appendChild(playerInput);
+    card.appendChild(buttonsDiv); // 🔹 Añadimos botones
     card.appendChild(circlesDiv);
     cardsContainer.appendChild(card);
   }
@@ -216,6 +246,12 @@ function spinRoulette() {
   let startTime = Date.now();
   let duration = 750;
   let intervalTime = duration / totalCards;
+  
+  // 🔹 Resetear colores ANTES de girar
+  document.querySelectorAll(".card-player").forEach(input => {
+    input.style.backgroundColor = "";
+    input.style.color = "";
+  });
 
   const interval = setInterval(() => {
     rouletteDisplay.textContent = i;
@@ -236,12 +272,12 @@ function spinRoulette() {
         rouletteDisplay.textContent = "🎉 Todos ganaron!";
         return;
       }
-
+      if (popup.style.display === "flex") return;
       // 🔹 Elegir un número aleatorio de los disponibles
       const result = availableNumbers[Math.floor(Math.random() * availableNumbers.length)];
       rouletteDisplay.textContent = result;
 
-      if (popup.style.display === "flex") return;
+      
 
       counts[result]++;
       updateCardCircles(result);
