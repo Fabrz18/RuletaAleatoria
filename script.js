@@ -31,7 +31,7 @@ let autoSpinSpeed = 650; // valor por defecto (Normal)
 let winners = [];
 let numPositions = 3;
 let prizeAmount = "100 puntos";
-let prizeConfig = [{puesto:1, premio:"20"}, {puesto:2, premio:"15"}, {puesto:3, premio:"10"}]; // [{puesto:1, premio:"20"}, {puesto:2, premio:"15"}, {puesto:3, premio:"10"}]
+let prizeConfig = [{puesto:1, premio:"20"}, {puesto:2, premio:"15"}, {puesto:3, premio:"10"}, {puesto:4, premio:"10"}, {puesto:5, premio:"5"}]; // [{puesto:1, premio:"20"}, {puesto:2, premio:"15"}, {puesto:3, premio:"10"}]
 
 numPositionsInput.addEventListener("input", () => {
   renderPrizeInputs(parseInt(numPositionsInput.value));
@@ -122,7 +122,7 @@ applyConfig.addEventListener("click", () => {
         localStorage.removeItem("yapeNumber");
         yapeDisplay.textContent = "";
     }
-  if (value >= 1 && value <= 20) {
+  if (value >= 1 && value <= 50) {
     totalCards = value;
     autoSpinSpeed = parseInt(speedSelect.value);
 
@@ -140,7 +140,7 @@ applyConfig.addEventListener("click", () => {
     rouletteDisplay.textContent = "?";
     configPopup.style.display = "none";
   } else {
-    alert("Por favor ingresa un número entre 1 y 20");
+    alert("Por favor ingresa un número entre 1 y 50");
   }
 });
 
