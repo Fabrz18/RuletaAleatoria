@@ -29,7 +29,6 @@ let totalCards = 20; // valor inicial
 let autoSpinInterval = null;
 let autoSpinSpeed = 650; // valor por defecto (Normal)
 let winners = [];
-let numPositions = 3;
 let prizeAmount = "100 puntos";
 let prizeConfig = [{puesto:1, premio:"20"}, {puesto:2, premio:"15"}, {puesto:3, premio:"10"}, {puesto:4, premio:"10"}, {puesto:5, premio:"5"}]; // [{puesto:1, premio:"20"}, {puesto:2, premio:"15"}, {puesto:3, premio:"10"}]
 
@@ -65,8 +64,10 @@ function renderPrizeInputs(count) {
   }
 }
 // 🔹 Función para agregar ganador
+// 🔹 Función para agregar ganador
 function addWinner(number, player) {
-  if (winners.length >= numPositions) return; // Ya se llenaron los puestos
+  // Usar la longitud de prizeConfig como límite
+  if (winners.length >= prizeConfig.length) return;
 
   const puesto = winners.length + 1;
   const premio = prizeConfig.find(p => p.puesto === puesto)?.premio || "—";
@@ -75,6 +76,7 @@ function addWinner(number, player) {
 
   renderWinners();
 }
+
 
 // 🔹 Mostrar ganadores en pantalla
 function renderWinners() {
