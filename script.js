@@ -32,6 +32,17 @@ let winners = [];
 let prizeAmount = "100 puntos";
 let prizeConfig = [{puesto:1, premio:"20"}, {puesto:2, premio:"15"}, {puesto:3, premio:"10"}, {puesto:4, premio:"10"}, {puesto:5, premio:"5"}]; // [{puesto:1, premio:"20"}, {puesto:2, premio:"15"}, {puesto:3, premio:"10"}]
 
+let lastResult = null;
+
+function getUniqueRandom(availableNumbers) {
+  let result;
+  do {
+    result = availableNumbers[Math.floor(Math.random() * availableNumbers.length)];
+  } while (result === lastResult && availableNumbers.length > 1);
+  lastResult = result;
+  return result;
+}
+
 numPositionsInput.addEventListener("input", () => {
   renderPrizeInputs(parseInt(numPositionsInput.value));
 });
@@ -276,11 +287,8 @@ function spinRoulette() {
       }
       if (popup.style.display === "flex") return;
       // 🔹 Elegir un número aleatorio de los disponibles
-      const result = availableNumbers[Math.floor(Math.random() * availableNumbers.length)];
+      const result = getUniqueRandom(availableNumbers);
       rouletteDisplay.textContent = result;
-
-      
-
       counts[result]++;
       updateCardCircles(result);
 
@@ -295,7 +303,8 @@ function spinRoulette() {
         popupNumber.textContent = `Número: ${result}`;
         popupPlayer.textContent = `Jugador: ${playerName}`;
         popup.style.display = "flex";
-
+        popup.classList.add("show");
+        
         addWinner(result, playerName);
 
         // 🚫 Detener auto-spin si había
@@ -325,6 +334,7 @@ function reiniciarRonda() {
   historyList.innerHTML = "";
   rouletteDisplay.textContent = "?";
   popup.style.display = "none";
+  popup.classList.remove("show");
   // 🔹 Limpiar ganadores
   winners = [];
   renderWinners();
@@ -333,6 +343,7 @@ function reiniciarRonda() {
 // Eventos
 closePopup.addEventListener("click", () => {
   popup.style.display = "none";
+  popup.classList.remove("show");
 });
 reiniciarPopup.addEventListener("click", reiniciarRonda);
 

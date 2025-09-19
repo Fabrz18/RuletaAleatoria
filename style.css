@@ -453,3 +453,28 @@ h1 {
   cursor: pointer;
 }
 
+/* Animación de aparición con zoom */
+@keyframes popupZoom {
+  0% { transform: scale(0.5); opacity: 0; }
+  60% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+/* Rebote divertido */
+@keyframes popupBounce {
+  0%   { transform: scale(0.3); opacity: 0; }
+  50%  { transform: scale(1.2); opacity: 1; }
+  70%  { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+/* Fade suave desde arriba */
+@keyframes popupFadeSlide {
+  0%   { transform: translateY(-50px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* Estilo base del popup cuando aparece */
+.popup.show .popup-content {
+  animation: popupBounce 0.6s ease forwards; /* 👈 aquí puedes cambiar: popupZoom | popupBounce | popupFadeSlide */
+}
