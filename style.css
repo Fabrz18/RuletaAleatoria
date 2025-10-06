@@ -1,0 +1,480 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #f4f4f9;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.game-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+}
+
+/* Historial */
+.history {
+  width: 150px;
+  text-align: left;
+  max-height: 600px; /* Limita la altura del historial */
+  overflow-y: auto;  /* Activa scroll vertical cuando se supera la altura */
+}
+
+.history h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+#history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#history-list li {
+  background: #ddd;
+  margin-bottom: 5px;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+/* Cartas */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(5, 90px);
+  gap: 10px;
+}
+
+.card-number {
+  font-size: 24px;
+}
+
+/* Nombre del jugador dentro de la carta */
+.card-player {
+  width: 90%;
+  min-height: 28px;             /* espacio mínimo */
+  max-height: 40px;             /* evita que crezca demasiado */
+  padding: 2px 4px;
+  margin: 4px 0;
+  font-size: 12px;              /* tamaño base */
+  border: 1px solid #333;
+  border-radius: 5px;
+  text-align: center;
+
+  /* Control del texto */
+  white-space: normal;
+  word-wrap: break-word;        /* corta palabras largas */
+  line-height: 1.1em;
+  resize: none;
+  overflow: hidden;             /* evita scroll */
+}
+
+/* Cuando el texto es más largo → letra más chica */
+.card-player.long-text {
+  font-size: 10px;              /* más reducido */
+}
+
+
+
+.circles {
+  display: flex;
+  gap: 4px;
+}
+
+/* Bolitas */
+.circle {
+  width: 12px;
+  height: 12px;
+  border: 2px solid #333;
+  border-radius: 50%;
+  background: transparent;
+  transition: background 0.3s;
+}
+
+.circle.filled {
+  background: white; /* SIEMPRE blanco */
+}
+
+/* Gradiente progresivo de la carta */
+.card {
+  width: 90px;
+  height: 140px;
+  background: #ffffff; /* nivel 0 */
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 5px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #000;
+  transition: background 0.4s, color 0.4s;
+}
+
+/* Niveles según cantidad de bolitas */
+.card.level-1 { background: #bffa98; color: white; }
+.card.level-2 { background: #597cee; color: white; }
+.card.level-3 { background: #f8cf5d; color: white; }
+.card.level-4 { background: #c734ae; color: white; }
+.card.level-5 { background: #ff0000; color: white; }
+
+
+/* Ruleta */
+.roulette {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#roulette-display {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  border: 3px solid #333;
+  padding: 20px;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+}
+
+#spin-btn {
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  border: none;
+  background: #28a745;
+  color: white;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+
+#spin-btn:hover {
+  background: #218838;
+}
+
+/* POPUP */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+}
+.popup-content h2 {
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+
+#popup-number {
+  font-size: 40px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+#popup-player {
+  font-size: 16px;
+  color: #444;
+  margin-bottom: 20px;
+
+  /* Control del nombre */
+  word-wrap: break-word;
+  white-space: normal;
+  line-height: 1.2em;
+}
+
+#close-popup {
+  padding: 10px 20px;
+  font-size: 16px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#close-popup:hover {
+  background: #0056b3;
+}
+#reiniciar-popup {
+  padding: 10px 20px;
+  font-size: 16px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+#reiniciar-popup:hover {
+  background: #a71d2a;
+}
+/* Botón de configuración flotante */
+.config-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: background 0.3s;
+}
+
+.config-btn:hover {
+  background: #555;
+}
+
+/* Popup de configuración */
+#config-popup .popup-content {
+  width: 280px;
+}
+
+#num-cards {
+  width: 100%;
+  padding: 6px;
+  margin-top: 10px;
+  border: 1px solid #333;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+#apply-config, #close-config {
+  padding: 8px 15px;
+  font-size: 14px;
+  margin: 5px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#apply-config {
+  background: #28a745;
+  color: white;
+}
+
+#apply-config:hover {
+  background: #218838;
+}
+
+#close-config {
+  background: #dc3545;
+  color: white;
+}
+
+#close-config:hover {
+  background: #a71d2a;
+}
+
+/* Botón Girar Ruleta */
+#spin-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.3s;
+}
+
+#spin-btn:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+}
+
+#spin-btn:hover:enabled {
+  background: #0056b3;
+}
+
+/* Botón Giro Automático */
+#auto-spin-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background: #28a745; /* verde */
+  color: white;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.3s;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#auto-spin-btn:hover {
+  background: #1e7e34;
+}
+#speed-select {
+  margin-top: 5px;
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #333;
+}
+.winners {
+  margin-top: 20px;
+  text-align: center;
+}
+
+#winners-list {
+  list-style: decimal;
+  padding: 0;
+  margin: 10px auto;
+  max-width: 300px;
+  text-align: left;
+}
+
+#winners-list li {
+  background: #f1f1f1;
+  margin: 5px 0;
+  padding: 8px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+.main-layout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px; /* espacio entre imágenes y juego */
+  margin-top: 20px;
+}
+
+.side-image {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.side-image img {
+  width: 400px;
+  height: 600px;
+  object-fit: cover;
+  margin-top: 10px;
+  border: 3px solid #333;
+  border-radius: 12px;
+  cursor: pointer; /* indica que se puede clickear */
+  object-fit: contain;
+}
+#developer{
+  margin-top: 5px;
+  font-size: 12px;
+  color: #8f8f8f;
+}
+#developer a{
+  color: #8f8f8f;
+  text-decoration: underline;
+}
+#help-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #fcfcfc;
+  color: #000;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  transition: background 0.3s;
+  z-index: 1000;
+}
+
+#help-btn:hover {
+  background: #fcfcfc;
+  border: #000;
+}
+/* Contenedor de botones de moradeo */
+.moradeo-buttons {
+  display: flex;
+  flex-direction: row;   /* en fila */
+  justify-content: center;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+/* Botón Moradeo (M) */
+.btn-morado {
+  background: #800080;   /* morado fuerte */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Botón Falta moradear (N) */
+.btn-morado-claro {
+  background: #d8b4e2;   /* morado clarito */
+  color: black;
+  border: none;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Animación de aparición con zoom */
+@keyframes popupZoom {
+  0% { transform: scale(0.5); opacity: 0; }
+  60% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+/* Rebote divertido */
+@keyframes popupBounce {
+  0%   { transform: scale(0.3); opacity: 0; }
+  50%  { transform: scale(1.2); opacity: 1; }
+  70%  { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+/* Fade suave desde arriba */
+@keyframes popupFadeSlide {
+  0%   { transform: translateY(-50px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* Estilo base del popup cuando aparece */
+.popup.show .popup-content {
+  animation: popupBounce 0.6s ease forwards; /* 👈 aquí puedes cambiar: popupZoom | popupBounce | popupFadeSlide */
+}
